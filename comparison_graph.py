@@ -45,3 +45,18 @@ def compare_by_expanded_node(x, y1, y2, y3):
     plt.legend(['OCL', 'A Star', 'Best First'], loc='upper left')
     plt.savefig("run_time_vs_expanded_nodes.eps")
     plt.show()
+
+
+def compare_by_expanded_node_infinite(x, y1, y2, y3):
+    figure(num=None, figsize=(8, 6), dpi=80, facecolor='w', edgecolor='k')
+    plt.xlabel('Total number of nodes')
+    plt.ylabel('Number of expanded nodes')
+    plt.title('Comparison using total number of nodes vs number of expanded nodes in infinite graph')
+    plt.grid(True)
+    plt.plot(x, y1, color='y', linestyle='-', marker='.')
+    plt.plot(x, y2, color='g', linestyle='--', marker='.')
+    plt.plot(x, y3, color='r', linestyle=':', marker='.')
+    # plt.plot(x, y4, color='b', linestyle='-.', marker='.')
+    plt.legend(['OCL', 'A Star', 'Best First'], loc='upper left')
+    plt.savefig("run_time_vs_expanded_nodes_inf.eps")
+    plt.show()

@@ -6,7 +6,9 @@ from Graph_Construction import construct_graph
 from OCL_Framework import OCL_Algo
 from a_star_search import a_star_algo
 from best_first_search import best_first_algo
-from comparison_graph import compare_by_time_and_node, compare_by_time_and_edge, compare_by_expanded_node
+from comparison_graph import compare_by_time_and_node, compare_by_time_and_edge, compare_by_expanded_node, \
+    compare_by_expanded_node_infinite
+from infinite_graph_construction import construct_infinite_graph
 
 
 def single_run():
@@ -41,6 +43,89 @@ def single_run():
 
     elapsed_best_first = (end_best_first - start_best_first) * 1000
     print("elapsed best first:   ", elapsed_best_first)
+
+
+def compare_infinite_graph():
+    total_nodes = 1004
+    graph = construct_infinite_graph(total_nodes)
+    goal_node = total_nodes - 1
+
+    result_ocl = OCL_Algo(graph, goal_node)
+    nodes_ocl = result_ocl.__len__()
+
+    result_astar = a_star_algo(graph, goal_node)
+    nodes_astar = result_astar.__len__()
+
+    result_best_first = best_first_algo(graph, goal_node)
+    nodes_best_first = result_best_first.__len__()
+
+    print(result_ocl)
+    print(result_astar)
+    print(result_best_first)
+
+    print("OCL:  ", nodes_ocl)
+    print("A star:  ", nodes_astar)
+    print("Best first:  ", nodes_best_first)
+
+
+def comp_by_infinite_graph():
+    total_nodes = 100
+    x = []
+    y1 = []
+    y2 = []
+    y3 = []
+
+    while True:
+        if total_nodes >= 1000:
+            break
+        #total_edges = 3 * total_nodes
+        goal_node = total_nodes - 1
+        nodes1 = 0
+        nodes2 = 0
+        nodes3 = 0
+
+        for i in range(200):
+            graph = construct_infinite_graph(total_nodes)
+
+            result_ocl = OCL_Algo(graph, goal_node)
+            nodes_ocl = result_ocl.__len__()
+
+            result_astar = a_star_algo(graph, goal_node)
+            nodes_astar = result_astar.__len__()
+
+            result_best_first = best_first_algo(graph, goal_node)
+            nodes_best_first = result_best_first.__len__()
+
+            nodes1 += nodes_ocl
+            nodes2 += nodes_astar
+            nodes3 += nodes_best_first
+
+        x.append(total_nodes)
+        y1.append(nodes1 / 200)
+        y2.append(nodes2 / 200)
+        y3.append(nodes3 / 200)
+
+        total_nodes += 100
+
+    compare_by_expanded_node_infinite(x, y1, y2, y3)
+
+        # if total_nodes < 50:
+        #     total_nodes += 5
+        # elif total_nodes < 200:
+        #     total_nodes += 10
+        # elif total_nodes < 350:
+        #     total_nodes += 30
+        # else:
+        #     total_nodes += 50
+        #
+        # if total_nodes == 50:
+        #     compare_by_expanded_node(x, y1, y2, y3)
+        # elif total_nodes == 200:
+        #     compare_by_expanded_node(x, y1, y2, y3)
+        # elif total_nodes == 350:
+        #     compare_by_expanded_node(x, y1, y2, y3)
+        # elif total_nodes == 500:
+        #     compare_by_expanded_node(x, y1, y2, y3)
 
 
 def comp_by_total_expanded_nodes():
