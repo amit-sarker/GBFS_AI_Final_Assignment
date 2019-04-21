@@ -7,7 +7,7 @@ def main():
     #comp_by_nodes_time()
     #comp_by_total_expanded_nodes()
     #comp_by_edges_time()
-    #compare_infinite_graph()
+    compare_infinite_graph()
     #comp_by_infinite_graph()
     #comp_by_infinite_time()
 
