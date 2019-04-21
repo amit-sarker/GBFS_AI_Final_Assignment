@@ -29,47 +29,25 @@ def calculate_h_values(graph, destination):
     return h_values
 
 
-def select_node_with_min_h(open, h_values):
-    h_list = []
+def SelectNode(open, h_values, g_values):
+    f_list = []
     print("Open        ", open)
     for val in open:
-        h_list.append(h_values.get(val))
+        f_list.append(h_values.get(val) + g_values.get(val))
+    min_f_val = min(f_list)
+    index = f_list.index(min_f_val)
 
-    print("heuristics    ", h_list)
-
-    min_h_val = min(h_list)
-    index = h_list.index(min_h_val)
-
-    print("min value    ", min_h_val, "index    ", index)
-
-    if min_h_val != Decimal('Infinity'):
+    if min_f_val != Decimal('Infinity'):
         return open[index]
     return -1
 
 
-def select_random_node(open):
-    return open[random.randint(0, len(open) - 1)]
-
-
-def SelectNode(open, probability, h_values):
-    selected_node_type = np.random.choice(
-        [0, 1],
-        1,
-        p=[1 - probability, probability]
-    )
-    #print(selected_node_type)
-    if selected_node_type[0] == 0:
-        return select_node_with_min_h(open, h_values)
-    else:
-        return select_random_node(open)
-
-
-def OCL_Algo(graph, goal):
+def a_star_algo(graph, goal):
     parent = {}
     open = []
     closed = []
-    probability = 0.8
 
+    #graph = construct_graph(number_of_nodes, number_of_edges)
     g_values = calculate_g_values(graph)
     h_values = calculate_h_values(graph, goal)
     print("G Vals:    ", g_values)
@@ -80,7 +58,7 @@ def OCL_Algo(graph, goal):
     print('\n')
 
     while open.__len__() != 0:
-        n = SelectNode(open, probability, h_values)
+        n = SelectNode(open, h_values, g_values)
         if n == -1:
             return []
         print("Node selected   ", n)
@@ -114,7 +92,7 @@ def OCL_Algo(graph, goal):
 #     # print("Enter Number of Edges of the graph: ")
 #     # number_of_edges = int(input())
 #     # OCL_Algo(number_of_nodes, number_of_edges)
-#     result = OCL_Algo(50, 100)
+#     result = a_star_algo(50, 100)
 #
 #     if len(result) == 0:
 #         print("No solution exist")
