@@ -1,12 +1,6 @@
-import random
-
-from Graph_Construction import construct_graph
 from decimal import Decimal
-import networkx as nx
-import numpy as np
-import operator
 
-from test import construct_graph1
+import networkx as nx
 
 
 def calculate_g_values(graph):
@@ -31,7 +25,6 @@ def calculate_h_values(graph, destination):
 
 def SelectNode(open, h_values, g_values):
     f_list = []
-    print("Open        ", open)
     for val in open:
         f_list.append(h_values.get(val) + g_values.get(val))
     min_f_val = min(f_list)
@@ -46,8 +39,6 @@ def a_star_algo(graph, goal):
     parent = {}
     open = []
     closed = []
-
-    #graph = construct_graph(number_of_nodes, number_of_edges)
     g_values = calculate_g_values(graph)
     h_values = calculate_h_values(graph, goal)
     print("G Vals:    ", g_values)
@@ -55,7 +46,6 @@ def a_star_algo(graph, goal):
 
     parent.update({0: 'none'})
     open.append(0)
-    print('\n')
 
     while open.__len__() != 0:
         n = SelectNode(open, h_values, g_values)
@@ -65,6 +55,10 @@ def a_star_algo(graph, goal):
         open.remove(n)
         if n == goal:
             closed.append(goal)
+            if len(closed) == 0:
+                print("No solution exist (A*)")
+            else:
+                print("Expanded Path nodes (A*):  ", closed)
             return closed
 
         for child in graph.successors(n):
@@ -85,16 +79,3 @@ def a_star_algo(graph, goal):
         closed.append(n)
     return []
 
-
-# if __name__ == '__main__':
-#     # print("Enter Number of Nodes of the graph: ")
-#     # number_of_nodes = int(input())
-#     # print("Enter Number of Edges of the graph: ")
-#     # number_of_edges = int(input())
-#     # OCL_Algo(number_of_nodes, number_of_edges)
-#     result = a_star_algo(50, 100)
-#
-#     if len(result) == 0:
-#         print("No solution exist")
-#     else:
-#         print("Resultant Path:  ", result)

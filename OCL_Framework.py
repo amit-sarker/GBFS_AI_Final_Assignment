@@ -1,12 +1,8 @@
 import random
-
-from Graph_Construction import construct_graph
 from decimal import Decimal
+
 import networkx as nx
 import numpy as np
-import operator
-
-from test import construct_graph1
 
 
 def calculate_g_values(graph):
@@ -31,17 +27,10 @@ def calculate_h_values(graph, destination):
 
 def select_node_with_min_h(open, h_values):
     h_list = []
-    print("Open        ", open)
     for val in open:
         h_list.append(h_values.get(val))
-
-    print("heuristics    ", h_list)
-
     min_h_val = min(h_list)
     index = h_list.index(min_h_val)
-
-    print("min value    ", min_h_val, "index    ", index)
-
     if min_h_val != Decimal('Infinity'):
         return open[index]
     return -1
@@ -57,7 +46,6 @@ def SelectNode(open, probability, h_values):
         1,
         p=[1 - probability, probability]
     )
-    #print(selected_node_type)
     if selected_node_type[0] == 0:
         return select_node_with_min_h(open, h_values)
     else:
@@ -77,7 +65,6 @@ def OCL_Algo(graph, goal):
 
     parent.update({0: 'none'})
     open.append(0)
-    print('\n')
 
     while open.__len__() != 0:
         n = SelectNode(open, probability, h_values)
@@ -87,6 +74,10 @@ def OCL_Algo(graph, goal):
         open.remove(n)
         if n == goal:
             closed.append(goal)
+            if len(closed) == 0:
+                print("No solution exist (OCL)")
+            else:
+                print("Expanded Path nodes (OCL):  ", closed)
             return closed
 
         for child in graph.successors(n):
@@ -106,17 +97,3 @@ def OCL_Algo(graph, goal):
                 open.append(child)
         closed.append(n)
     return []
-
-
-# if __name__ == '__main__':
-#     # print("Enter Number of Nodes of the graph: ")
-#     # number_of_nodes = int(input())
-#     # print("Enter Number of Edges of the graph: ")
-#     # number_of_edges = int(input())
-#     # OCL_Algo(number_of_nodes, number_of_edges)
-#     result = OCL_Algo(50, 100)
-#
-#     if len(result) == 0:
-#         print("No solution exist")
-#     else:
-#         print("Resultant Path:  ", result)

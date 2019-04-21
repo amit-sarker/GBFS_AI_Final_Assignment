@@ -1,12 +1,6 @@
-import random
-
-from Graph_Construction import construct_graph
 from decimal import Decimal
-import networkx as nx
-import numpy as np
-import operator
 
-from test import construct_graph1
+import networkx as nx
 
 
 def calculate_g_values(graph):
@@ -29,9 +23,8 @@ def calculate_h_values(graph, destination):
     return h_values
 
 
-def SelectNode(open, h_values, g_values):
+def SelectNode(open, h_values):
     f_list = []
-    print("Open        ", open)
     for val in open:
         f_list.append(h_values.get(val))
     min_f_val = min(f_list)
@@ -46,9 +39,7 @@ def best_first_algo(graph, goal):
     parent = {}
     open = []
     closed = []
-    #goal_node = 49
 
-    #graph = construct_graph(number_of_nodes, number_of_edges)
     g_values = calculate_g_values(graph)
     h_values = calculate_h_values(graph, goal)
     print("G Vals:    ", g_values)
@@ -56,16 +47,19 @@ def best_first_algo(graph, goal):
 
     parent.update({0: 'none'})
     open.append(0)
-    print('\n')
 
     while open.__len__() != 0:
-        n = SelectNode(open, h_values, g_values)
+        n = SelectNode(open, h_values)
         if n == -1:
             return []
         print("Node selected   ", n)
         open.remove(n)
         if n == goal:
             closed.append(goal)
+            if len(closed) == 0:
+                print("No solution exist (Best-First)")
+            else:
+                print("Expanded Path nodes (Best-First):  ", closed)
             return closed
 
         for child in graph.successors(n):
@@ -85,17 +79,3 @@ def best_first_algo(graph, goal):
                 open.append(child)
         closed.append(n)
     return []
-
-
-# if __name__ == '__main__':
-#     # print("Enter Number of Nodes of the graph: ")
-#     # number_of_nodes = int(input())
-#     # print("Enter Number of Edges of the graph: ")
-#     # number_of_edges = int(input())
-#     # OCL_Algo(number_of_nodes, number_of_edges)
-#     result = best_first_algo(50, 100)
-#
-#     if len(result) == 0:
-#         print("No solution exist")
-#     else:
-#         print("Resultant Path:  ", result)

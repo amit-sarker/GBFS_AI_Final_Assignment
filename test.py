@@ -1,8 +1,4 @@
-import random
-
-# import matplotlib.pyplot as plt
 import networkx as nx
-import numpy as np
 
 
 def construct_graph1(nodes, edges):
@@ -38,15 +34,6 @@ def construct_graph1(nodes, edges):
     directed_graph.edges[6, 11]['weight'] = 6
 
     print(directed_graph.edges(data=True))
-
-    # try:
-    #     print(nx.shortest_path_length(directed_graph, 0, 4, 'weight'))
-    # except nx.NetworkXNoPath:
-    #     print('No path')
-    #
-    # print(list(directed_graph.successors(2)))
-    #
-    # print("cost    ", directed_graph[0][3]['weight'])
 
     return directed_graph
 

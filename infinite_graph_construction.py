@@ -31,7 +31,3 @@ def construct_infinite_graph(nodes):
 
     print(directed_graph.edges(data=True))
     return directed_graph
-
-
-if __name__ == '__main__':
-    construct_infinite_graph(104)
